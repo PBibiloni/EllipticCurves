@@ -1,3 +1,4 @@
+import math
 import random
 
 import sympy
@@ -23,11 +24,8 @@ if __name__ == '__main__':
             print(f'   {p=} = 2 (mod 3), therefore F_{p=} already has primitive 3-roots: we will not find E[n] in E(F_p(alpha)).')
             continue
 
-        # Define n at random
-        divisors = sympy.divisors(p+1)
-        divisors.remove(1)      # Avoid trivial case n=1.
-        divisors.remove(p+1)    # Avoid p+1 = | E(F_p) | to find S not in <P, Q>.
-        n = random.choice(divisors)
+        # Define n at "random" so that it is square free
+        n = math.prod(factor for factor in sympy.primefactors(p+1) if random.random() < 0.5)
         print(f'    Let\'s consider {n=}.')
 
         field_Fp = FiniteFieldPrimeOrder(prime=p)
